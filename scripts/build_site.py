@@ -1,12 +1,13 @@
-"""Generate the full static privacy page; no browser JavaScript is used."""
+"""Generate the full static privacy page for GitHub Pages and Webdev preview."""
 from pathlib import Path
+from shutil import copyfile
 
 import markdown
 
 ROOT = Path(__file__).resolve().parents[1]
 source = ROOT / "src" / "privacy-policy.md"
 policy = source.read_text(encoding="utf-8")
-policy = policy.replace("\n**Draft for review — not yet approved for publication**\n", "\n")
+assert "Draft for review" not in policy, "Only an approved policy can be published."
 assert "## 9. Contact" in policy, "The policy must be complete."
 assert "com.pocketai.signals" in policy
 body = markdown.markdown(policy, output_format="html")
@@ -33,4 +34,9 @@ page = f'''<!doctype html>
 output = ROOT / "docs" / "index.html"
 output.parent.mkdir(parents=True, exist_ok=True)
 output.write_text(page, encoding="utf-8")
-print(f"Generated {output.relative_to(ROOT)} — full policy as static HTML")
+# The owner enabled GitHub Pages from main:/; publish the same static files there.
+(ROOT / "index.html").write_text(page, encoding="utf-8")
+for name in ["styles.css", "manus-routes.json"]:
+    copyfile(ROOT / "docs" / name, ROOT / name)
+(ROOT / ".nojekyll").touch()
+print("Generated complete static policy in docs/ and the GitHub Pages root")
