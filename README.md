@@ -8,7 +8,7 @@ The policy text and data-handling procedures were approved by the owner on Novem
 
 `docs/index.html` contains the entire policy as ordinary HTML. It does not require JavaScript, account access, a server, or a database. `docs/styles.css` is the only page asset. No images, ads, installation links, Telegram links, forms, or analytics are included.
 
-GitHub Pages is configured to publish the `docs` folder from the `main` branch. The empty `docs/.nojekyll` file prevents Jekyll processing. No user-maintained GitHub Actions workflow is required.
+To publish on GitHub Pages, configure repository **Settings → Pages → Deploy from a branch → main → /docs → Save**. The empty `docs/.nojekyll` file prevents Jekyll processing. No user-maintained GitHub Actions workflow is required.
 
 ## Updating the text
 
